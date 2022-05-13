@@ -1,6 +1,8 @@
 #include "network/FileCompressor.h"
 
+#ifndef N64
 #include "zlib.h"
+#endif
 
 #include <cassert>
 #include <cstdio>

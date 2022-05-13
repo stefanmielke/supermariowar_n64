@@ -54,6 +54,7 @@ DirectoryListing::DirectoryListing(string dlPath, string file_ext)
         Success = findhandle != INVALID_HANDLE_VALUE;
         Stored_Filename = finddata.cFileName;
 
+    #elif defined(N64)
     /* POSIX Directory Enumeration */
     #else
         dhandle = opendir(path.c_str());
@@ -67,6 +68,7 @@ DirectoryListing::~DirectoryListing()
 
     #ifdef _WIN32
         FindClose(findhandle);
+    #elif defined(N64)
     #else
         closedir(dhandle);
     #endif
@@ -108,6 +110,8 @@ bool DirectoryListing :: operator() (string &s)
             else retval = false;
 
 
+        #elif defined(N64)
+            retval = false;
         /* POSIX directory enumeration - more straightforward */
         #else
 
@@ -161,6 +165,7 @@ bool DirectoryListing :: NextDirectory (string &s)
     //while (retval == true && ((GetFileAttributes(s.c_str()) & FILE_ATTRIBUTE_DIRECTORY) == 0 || s == "." || s == ".." || s == "CVS" || s == ".svn"));
 	while (retval == true && (stat(fullName(s).c_str(), &fileinfo) == -1 || (fileinfo.st_mode & _S_IFDIR) == 0 || s == "." || s == ".." || s == "CVS" || s == ".svn"));
 
+#elif defined(N64)
 #else /* POSIX directory enumeration - more straightforward */
 
     struct stat fileinfo;

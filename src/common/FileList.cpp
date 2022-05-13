@@ -19,7 +19,7 @@
         #define WIN32_LEAN_AND_MEAN
         #include <windows.h>
     #endif
-#else
+#elif !defined(N64)
     #include <dirent.h>
 #endif
 

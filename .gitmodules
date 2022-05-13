@@ -11,3 +11,6 @@
 	path = libdragon
 	url = https://github.com/DragonMinded/libdragon
 	branch = trunk
+[submodule "dependencies/sdl_n64"]
+	path = dependencies/sdl_n64
+	url = https://github.com/stefanmielke/sdl_n64_libdragon

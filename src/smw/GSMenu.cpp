@@ -213,10 +213,12 @@ void MenuState::onEnterState()
         mCurrentMenu = mMainMenu;
         mCurrentMenu->ResetMenu();
     } else if (game_values.matchtype == MATCH_TYPE_NET_GAME) {
+#ifndef NETWORK_DISABLED
         mCurrentMenu = mNetLobbyMenu;
         mCurrentMenu->ResetMenu();
         netplay.joinSuccessful = false;
         netplay.gameRunning = false;
+#endif
     }
 
     if (game_values.matchtype == MATCH_TYPE_WORLD) {

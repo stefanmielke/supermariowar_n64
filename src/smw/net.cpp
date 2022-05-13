@@ -527,18 +527,18 @@ void NetClient::sendMapChangeMessage()
     // You can safely update this line then.
     static_assert(sizeof(NetPkgs::MessageHeader) == 3, "The size of Net_MessageHeader should be 3");
 
-    CompressedData compressed = FileCompressor::compress(netplay.mapfilepath, sizeof(NetPkgs::MessageHeader));
-    assert(compressed.data);
-    assert(compressed.size > 4 + sizeof(NetPkgs::MessageHeader));
-    if (!compressed.is_valid())
-        return;
-    if (compressed.size <= 4 + sizeof(NetPkgs::MessageHeader))
-        return;
+    // CompressedData compressed = FileCompressor::compress(netplay.mapfilepath, sizeof(NetPkgs::MessageHeader));
+    // assert(compressed.data);
+    // assert(compressed.size > 4 + sizeof(NetPkgs::MessageHeader));
+    // if (!compressed.is_valid())
+    //     return;
+    // if (compressed.size <= 4 + sizeof(NetPkgs::MessageHeader))
+    //     return;
 
-    NetPkgs::MessageHeader header(NET_NOTICE_MAP_CHANGE);
-    memcpy(compressed.data, &header, sizeof(NetPkgs::MessageHeader));
+    // NetPkgs::MessageHeader header(NET_NOTICE_MAP_CHANGE);
+    // memcpy(compressed.data, &header, sizeof(NetPkgs::MessageHeader));
 
-    sendMessageToLobbyServer(compressed.data, compressed.size);
+    // sendMessageToLobbyServer(compressed.data, compressed.size);
 }
 
 void NetClient::handleMapChangeMessage(const uint8_t* data, size_t dataLength)
@@ -561,23 +561,23 @@ void NetClient::handleMapChangeMessage(const uint8_t* data, size_t dataLength)
     printf("[net] Map arrived (C:%d unC:%d)\n", compressed_size, full_size);
 
     netplay.mapfilepath = GetHomeDirectory() + "net_last.map";
-    if (!FileCompressor::decompress(data + sizeof(NetPkgs::MessageHeader), netplay.mapfilepath))
-        return;
+    // if (!FileCompressor::decompress(data + sizeof(NetPkgs::MessageHeader), netplay.mapfilepath))
+    //     return;
 }
 
 void NetClient::sendGameModeSettingsChangeMessage()
 {
-    size_t data_size = sizeof(NetPkgs::MessageHeader) + sizeof(GameModeSettingsUnion);
-    CompressedData blob((uint8_t*) calloc(data_size, 1), data_size);
+    // size_t data_size = sizeof(NetPkgs::MessageHeader) + sizeof(GameModeSettingsUnion);
+    // CompressedData blob((uint8_t*) calloc(data_size, 1), data_size);
 
-    NetPkgs::MessageHeader header(NET_NOTICE_GAMEMODESETTINGS);
-    memcpy(blob.data, &header, sizeof(NetPkgs::MessageHeader));
+    // NetPkgs::MessageHeader header(NET_NOTICE_GAMEMODESETTINGS);
+    // memcpy(blob.data, &header, sizeof(NetPkgs::MessageHeader));
 
-    GameModeSettingsUnion modesettings;
-    modesettings.read_global((GameModeType) currentgamemode);
-    memcpy(blob.data + sizeof(NetPkgs::MessageHeader), &modesettings, sizeof(GameModeSettingsUnion));
+    // GameModeSettingsUnion modesettings;
+    // modesettings.read_global((GameModeType) currentgamemode);
+    // memcpy(blob.data + sizeof(NetPkgs::MessageHeader), &modesettings, sizeof(GameModeSettingsUnion));
 
-    sendMessageToLobbyServer(blob.data, blob.size);
+    // sendMessageToLobbyServer(blob.data, blob.size);
 }
 
 void NetClient::handleGameModeSettingsChangeMessage(const uint8_t* data, size_t dataLength)
@@ -618,19 +618,19 @@ void NetClient::sendSkinChange()
     // NOTE: see sendMapChangeMessage() for similar code
     static_assert(sizeof(NetPkgs::MessageHeader) == 3, "The size of Net_MessageHeader should be 3");
 
-    CompressedData compressed = FileCompressor::compress(skinpath, sizeof(NetPkgs::MessageHeader) + 1);
-    assert(compressed.data);
-    assert(compressed.size > 1 + sizeof(NetPkgs::MessageHeader));
-    if (!compressed.is_valid())
-        return;
-    if (compressed.size <= 1 + sizeof(NetPkgs::MessageHeader))
-        return;
+    // CompressedData compressed = FileCompressor::compress(skinpath, sizeof(NetPkgs::MessageHeader) + 1);
+    // assert(compressed.data);
+    // assert(compressed.size > 1 + sizeof(NetPkgs::MessageHeader));
+    // if (!compressed.is_valid())
+    //     return;
+    // if (compressed.size <= 1 + sizeof(NetPkgs::MessageHeader))
+    //     return;
 
-    NetPkgs::MessageHeader header(NET_NOTICE_SKIN_CHANGE);
-    memcpy(compressed.data, &header, sizeof(NetPkgs::MessageHeader));
-    compressed.data[sizeof(NetPkgs::MessageHeader)] = 0xFF; // the player's id in a room (0-3), or 0xFF
+    // NetPkgs::MessageHeader header(NET_NOTICE_SKIN_CHANGE);
+    // memcpy(compressed.data, &header, sizeof(NetPkgs::MessageHeader));
+    // compressed.data[sizeof(NetPkgs::MessageHeader)] = 0xFF; // the player's id in a room (0-3), or 0xFF
 
-    sendMessageToLobbyServer(compressed.data, compressed.size);
+    // sendMessageToLobbyServer(compressed.data, compressed.size);
 }
 
 void NetClient::handleSkinChangeMessage(const uint8_t* data, size_t dataLength)
@@ -660,8 +660,8 @@ void NetClient::handleSkinChangeMessage(const uint8_t* data, size_t dataLength)
 
     std::ostringstream path;
     path << GetHomeDirectory() << "net_skin" << playerID << ".bmp";
-    if (!FileCompressor::decompress(data + sizeof(NetPkgs::MessageHeader) + 1, path.str()))
-        return;
+    // if (!FileCompressor::decompress(data + sizeof(NetPkgs::MessageHeader) + 1, path.str()))
+    //     return;
 
     if (!rm->LoadMenuSkin(playerID, path.str(), playerID, false)) {
         printf("[warning] Could not load netplay skin of player %d, using default\n", playerID);

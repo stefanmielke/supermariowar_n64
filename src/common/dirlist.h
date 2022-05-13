@@ -22,6 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #ifdef _XBOX
 #  include <xtl.h>
+#elif defined(N64)
+#  include <sys/types.h>
+#  include <sys/stat.h>
+#  include <unistd.h>
 #else
 #  ifdef _WIN32
 #    define WIN32_LEAN_AND_MEAN
@@ -67,6 +71,9 @@ class DirectoryListing
         HANDLE			findhandle;
         std::string Stored_Filename;
 
+        #elif defined(N64)
+
+        
         #else
         DIR * dhandle;
         struct dirent * current;

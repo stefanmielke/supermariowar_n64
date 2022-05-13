@@ -8,7 +8,7 @@
 #include <windows.h>
 #endif
 
-#if defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) || defined(N64)
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
